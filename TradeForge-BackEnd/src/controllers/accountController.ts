@@ -7,6 +7,7 @@ import {
   findAccountById,
   updateAccount as updateAccountModel,
   deleteAccount as deleteAccountModel,
+  refreshAccountBalance,
   type AccountType,
 } from '../models/Account';
 
@@ -60,7 +61,11 @@ export async function getAccounts(req: Request, res: Response): Promise<void> {
     res.status(401).json({ error: 'Not authenticated' });
     return;
   }
-  const accounts = await findAccountsByUserId(req.user.id);
+  let accounts = await findAccountsByUserId(req.user.id);
+  for (const account of accounts) {
+    await refreshAccountBalance(account.id);
+  }
+  accounts = await findAccountsByUserId(req.user.id);
   res.status(200).json(accounts);
 }
 

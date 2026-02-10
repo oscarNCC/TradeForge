@@ -1,4 +1,5 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import type { LegendPayload } from 'recharts';
 import type { ChartPoint } from '../../types/analytics';
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 
 const COLORS = ['#00FF88', '#00CCFF', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
 
-function renderLegend(props: { payload?: Array<{ value: string; color?: string }> }) {
+function renderLegend(props: { payload?: readonly LegendPayload[] }) {
   const { payload = [] } = props;
   return (
     <ul className="flex flex-wrap justify-center gap-x-4 gap-y-1 list-none m-0 p-0 text-[11px] text-gray-400">
@@ -19,7 +20,7 @@ function renderLegend(props: { payload?: Array<{ value: string; color?: string }
             className="shrink-0 w-2 h-2 rounded-full"
             style={{ backgroundColor: entry.color ?? COLORS[index % COLORS.length] }}
           />
-          <span>{entry.value}</span>
+          <span>{entry.value ?? ''}</span>
         </li>
       ))}
     </ul>

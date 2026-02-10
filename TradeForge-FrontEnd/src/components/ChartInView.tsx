@@ -1,4 +1,5 @@
-import { cloneElement, isValidElement, ReactElement } from 'react';
+import { cloneElement, isValidElement } from 'react';
+import type { ReactElement } from 'react';
 import { useInView } from '../hooks/useInView';
 
 interface ChartInViewProps {

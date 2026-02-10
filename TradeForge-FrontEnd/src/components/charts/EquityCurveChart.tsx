@@ -3,9 +3,11 @@ import type { ChartPoint } from '../../types/analytics';
 
 interface Props {
   data: ChartPoint[];
+  /** When false, chart animation does not run (e.g. until in view). Default true. */
+  playAnimation?: boolean;
 }
 
-export default function EquityCurveChart({ data }: Props) {
+export default function EquityCurveChart({ data, playAnimation = true }: Props) {
   return (
     <div className="h-[300px] w-full p-2">
       <h3 className="text-sm font-bold text-gray-400 mb-4 font-orbitron tracking-wider flex items-center gap-2">
@@ -13,7 +15,7 @@ export default function EquityCurveChart({ data }: Props) {
           EQUITY CURVE
       </h3>
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data}>
+        <LineChart data={data} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(0, 255, 136, 0.1)" />
           <XAxis 
             dataKey="label" 
@@ -59,6 +61,9 @@ export default function EquityCurveChart({ data }: Props) {
             dot={false}
             activeDot={{ r: 6, fill: '#FFFFFF', stroke: '#00FF88', strokeWidth: 2 }}
             filter="url(#neon-glow)"
+            isAnimationActive={playAnimation}
+            animationBegin={0}
+            animationDuration={1200}
           />
         </LineChart>
       </ResponsiveContainer>

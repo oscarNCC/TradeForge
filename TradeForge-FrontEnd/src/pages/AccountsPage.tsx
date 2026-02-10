@@ -23,6 +23,8 @@ export default function AccountsPage() {
   const [editingAccount, setEditingAccount] = useState<Account | null>(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
+  const [deleteConfirmAccount, setDeleteConfirmAccount] = useState<Account | null>(null);
+  const [deleteConfirmName, setDeleteConfirmName] = useState('');
 
   useEffect(() => {
     fetchAccounts();
@@ -60,10 +62,25 @@ export default function AccountsPage() {
     }
   }
 
-  async function handleDelete(account: Account) {
-    const confirmed = window.confirm(`Are you sure you want to delete account "${account.account_name}"?`);
-    if (confirmed) {
-      await deleteAccount(account.id);
+  function openDeleteConfirm(account: Account) {
+    setDeleteConfirmAccount(account);
+    setDeleteConfirmName('');
+  }
+
+  function closeDeleteConfirm() {
+    setDeleteConfirmAccount(null);
+    setDeleteConfirmName('');
+  }
+
+  async function handleDeleteConfirm() {
+    if (!deleteConfirmAccount) return;
+    if (deleteConfirmName.trim() !== deleteConfirmAccount.account_name) return;
+    setFormLoading(true);
+    try {
+      await deleteAccount(deleteConfirmAccount.id);
+      closeDeleteConfirm();
+    } finally {
+      setFormLoading(false);
     }
   }
 
@@ -163,7 +180,7 @@ export default function AccountsPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleDelete(account)}
+                  onClick={() => openDeleteConfirm(account)}
                   className="px-3 py-1.5 text-xs bg-red-500/10 border border-red-500/30 text-red-500 rounded hover:bg-red-500/20 hover:border-red-500/60 transition-colors font-mono uppercase"
                 >
                   Delete
@@ -172,6 +189,47 @@ export default function AccountsPage() {
             </li>
           ))}
         </ul>
+      )}
+
+      {deleteConfirmAccount && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-[#050810]/95 border border-red-500/30 rounded-xl shadow-[0_0_30px_rgba(0,0,0,0.8)] w-full max-w-md overflow-hidden">
+            <div className="p-6">
+              <h3 className="text-lg font-bold text-red-400 font-orbitron mb-2">Delete Account</h3>
+              <p className="text-sm text-gray-400 mb-4">
+                This will permanently delete the account <span className="text-white font-semibold">&quot;{deleteConfirmAccount.account_name}&quot;</span> and all its trades. This cannot be undone.
+              </p>
+              <p className="text-xs text-gray-500 mb-2 font-mono uppercase tracking-wider">
+                Type the account name to confirm:
+              </p>
+              <input
+                type="text"
+                value={deleteConfirmName}
+                onChange={(e) => setDeleteConfirmName(e.target.value)}
+                placeholder="Enter account name"
+                className="w-full px-4 py-2.5 bg-[#0A0F1E] border border-gray-700 rounded-lg text-gray-200 placeholder-gray-600 focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/30 font-mono"
+                autoFocus
+              />
+              <div className="flex gap-3 mt-6">
+                <button
+                  type="button"
+                  onClick={closeDeleteConfirm}
+                  className="flex-1 px-4 py-2 border border-gray-600 text-gray-400 rounded-lg hover:bg-white/5 font-mono uppercase text-sm"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDeleteConfirm}
+                  disabled={deleteConfirmName.trim() !== deleteConfirmAccount.account_name || formLoading}
+                  className="flex-1 px-4 py-2 bg-red-500/20 border border-red-500/50 text-red-400 rounded-lg hover:bg-red-500/30 disabled:opacity-50 disabled:cursor-not-allowed font-mono uppercase text-sm"
+                >
+                  {formLoading ? 'Deleting…' : 'Delete'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

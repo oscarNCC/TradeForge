@@ -34,7 +34,7 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="max-w-[1600px] mx-auto space-y-8">
+    <div className="max-w-6xl mx-auto space-y-8">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold font-orbitron text-transparent bg-clip-text bg-gradient-to-r from-white via-[#00FF88] to-white drop-shadow-[0_0_10px_rgba(0,255,136,0.3)]">
             PERFORMANCE ANALYTICS

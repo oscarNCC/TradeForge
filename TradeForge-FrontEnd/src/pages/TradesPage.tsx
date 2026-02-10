@@ -90,7 +90,7 @@ export default function TradesPage() {
   };
 
   return (
-    <div className="max-w-[1600px] mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-6">
       <div className="flex justify-between items-center mb-6 bg-[#050810]/50 p-4 rounded-xl border border-[#00FF88]/20 backdrop-blur-md">
         <div>
             <h1 className="text-2xl font-bold font-orbitron text-transparent bg-clip-text bg-gradient-to-r from-white to-[#00FF88]">TRADE JOURNAL</h1>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 
 export default function LoginPage() {
@@ -78,12 +78,6 @@ export default function LoginPage() {
             {isLoading ? 'AUTHENTICATING...' : 'INITIALIZE SESSION'}
           </button>
         </form>
-        <p className="mt-8 text-center text-xs text-gray-500 border-t border-gray-800 pt-6 font-mono">
-          No access credentials?{' '}
-          <Link to="/register" className="text-[#00FF88] font-bold hover:text-white transition-colors hover:underline">
-            REGISTER NEW USER
-          </Link>
-        </p>
       </div>
     </div>
   );

@@ -4,9 +4,11 @@ import type { ChartPoint } from '../../types/analytics';
 interface Props {
   data: ChartPoint[];
   title: string;
+  /** When false, chart animation does not run (e.g. until in view). Default true. */
+  playAnimation?: boolean;
 }
 
-export default function StatsBarChart({ data, title }: Props) {
+export default function StatsBarChart({ data, title, playAnimation = true }: Props) {
   return (
     <div className="h-[300px] w-full p-2">
       <h3 className="text-sm font-bold text-gray-400 mb-4 font-orbitron tracking-wider flex items-center gap-2">
@@ -18,13 +20,10 @@ export default function StatsBarChart({ data, title }: Props) {
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(0, 255, 136, 0.1)" />
           <XAxis 
             dataKey="label" 
-            tick={{ fontSize: 10, fill: '#6b7280', fontFamily: 'monospace' }}
+            tick={false}
             axisLine={false}
             tickLine={false}
-            interval={0}
-            angle={-45}
-            textAnchor="end"
-            height={60}
+            height={8}
           />
           <YAxis 
             tick={{ fontSize: 11, fill: '#6b7280', fontFamily: 'monospace' }}
@@ -34,6 +33,7 @@ export default function StatsBarChart({ data, title }: Props) {
           />
           <Tooltip 
             cursor={{ fill: 'rgba(0, 255, 136, 0.05)' }}
+            labelFormatter={(label) => label}
             formatter={(value: number | undefined) => [`$${(value || 0).toFixed(2)}`, 'PnL']}
             contentStyle={{ 
                 backgroundColor: 'rgba(5, 8, 16, 0.95)', 
@@ -45,7 +45,7 @@ export default function StatsBarChart({ data, title }: Props) {
             labelStyle={{ color: '#9CA3AF', fontFamily: 'monospace' }}
             itemStyle={{ color: '#00FF88' }}
           />
-          <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+          <Bar dataKey="value" radius={[4, 4, 0, 0]} isAnimationActive={playAnimation} animationBegin={0} animationDuration={800}>
             {data.map((entry, index) => (
               <Cell 
                 key={`cell-${index}`} 

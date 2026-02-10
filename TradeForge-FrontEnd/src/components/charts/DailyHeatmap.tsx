@@ -3,9 +3,11 @@ import type { ChartPoint } from '../../types/analytics';
 
 interface Props {
   data: ChartPoint[];
+  /** When true, entrance animation runs (e.g. when scrolled into view). Default true. */
+  playAnimation?: boolean;
 }
 
-export default function DailyHeatmap({ data }: Props) {
+export default function DailyHeatmap({ data, playAnimation = true }: Props) {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const daysInMonth = (date: Date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
@@ -40,7 +42,7 @@ export default function DailyHeatmap({ data }: Props) {
 
     // Empty cells
     for (let i = 0; i < startDay; i++) {
-        days.push(<div key={`empty-${i}`} className="h-24 bg-[#0A0F1E]/30 border border-gray-800/50 rounded-lg"></div>);
+        days.push(<div key={`empty-${i}`} className="h-14 bg-[#0A0F1E]/30 border border-gray-800/50 rounded-md"></div>);
     }
 
     // Day cells
@@ -70,7 +72,7 @@ export default function DailyHeatmap({ data }: Props) {
         days.push(
             <div 
                 key={day} 
-                className={`h-24 p-2 border rounded-lg flex flex-col justify-between transition-all duration-300 relative group backdrop-blur-sm ${bgColor} ${borderColor} ${glow} hover:border-opacity-100 hover:scale-[1.02]`}
+                className={`h-14 p-1.5 border rounded-md flex flex-col justify-between transition-all duration-300 relative group backdrop-blur-sm ${bgColor} ${borderColor} ${glow} hover:border-opacity-100 hover:scale-[1.02]`}
             >
                 <span className={`text-sm font-semibold font-orbitron ${textColor}`}>{day}</span>
                 {val !== undefined && (
@@ -93,7 +95,7 @@ export default function DailyHeatmap({ data }: Props) {
   };
 
   return (
-    <div className="bg-[#050810]/50 p-6 rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.5)] border border-[#00FF88]/20 backdrop-blur-md">
+    <div className={`bg-[#050810]/50 p-6 rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.5)] border border-[#00FF88]/20 backdrop-blur-md max-w-3xl transition-all duration-700 ${playAnimation ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-sm font-bold text-[#00FF88] uppercase tracking-wider font-orbitron flex items-center gap-2">
             <span className="w-2 h-2 bg-[#00FF88] rounded-full animate-pulse"></span>
@@ -116,15 +118,15 @@ export default function DailyHeatmap({ data }: Props) {
         </div>
       </div>
       
-      <div className="grid grid-cols-7 gap-2 mb-2">
+      <div className="grid grid-cols-7 gap-1.5 mb-1.5">
         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-            <div key={d} className="text-center text-xs font-semibold text-gray-600 uppercase font-mono tracking-widest">
+            <div key={d} className="text-center text-[10px] font-semibold text-gray-600 uppercase font-mono tracking-widest">
                 {d}
             </div>
         ))}
       </div>
       
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid grid-cols-7 gap-1.5">
         {renderCalendar()}
       </div>
     </div>

@@ -3,11 +3,30 @@ import type { ChartPoint } from '../../types/analytics';
 
 interface Props {
   data: ChartPoint[];
+  /** When false, chart animation does not run (e.g. until in view). Default true. */
+  playAnimation?: boolean;
 }
 
 const COLORS = ['#00FF88', '#00CCFF', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
 
-export default function SetupPieChart({ data }: Props) {
+function renderLegend(props: { payload?: Array<{ value: string; color?: string }> }) {
+  const { payload = [] } = props;
+  return (
+    <ul className="flex flex-wrap justify-center gap-x-4 gap-y-1 list-none m-0 p-0 text-[11px] text-gray-400">
+      {payload.map((entry, index) => (
+        <li key={index} className="flex items-center gap-1.5">
+          <span
+            className="shrink-0 w-2 h-2 rounded-full"
+            style={{ backgroundColor: entry.color ?? COLORS[index % COLORS.length] }}
+          />
+          <span>{entry.value}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export default function SetupPieChart({ data, playAnimation = true }: Props) {
   return (
     <div className="min-h-[300px] p-2 flex flex-col items-center justify-center">
       <h3 className="text-sm font-bold text-gray-400 mb-2 font-orbitron tracking-wider w-full text-left">SETUP DISTRIBUTION</h3>
@@ -19,13 +38,16 @@ export default function SetupPieChart({ data }: Props) {
               cx="50%"
               cy="50%"
               labelLine={false}
-              label={({ name, percent }: any) => `${name || ''} ${(percent * 100).toFixed(0)}%`}
+              label={false}
               outerRadius={80}
               innerRadius={50}
-              dataKey="count"
+              dataKey="value"
               nameKey="label"
               stroke="none"
               paddingAngle={2}
+              isAnimationActive={playAnimation}
+              animationBegin={0}
+              animationDuration={800}
             >
               {data.map((_, index) => (
                 <Cell 
@@ -36,7 +58,7 @@ export default function SetupPieChart({ data }: Props) {
               ))}
             </Pie>
             <Tooltip 
-              formatter={(value: any, name: any) => [`${value || 0} trades`, name || '']}
+              formatter={(value: any, name: any) => [typeof value === 'number' ? `$${value.toFixed(2)}` : value, name || '']}
               contentStyle={{ 
                 backgroundColor: 'rgba(5, 8, 16, 0.95)', 
                 borderColor: 'rgba(0, 255, 136, 0.3)', 
@@ -45,11 +67,11 @@ export default function SetupPieChart({ data }: Props) {
             }}
             itemStyle={{ color: '#E0E0E0' }}
             />
-            <Legend 
-                verticalAlign="bottom" 
-                height={36} 
-                iconType="circle"
-                wrapperStyle={{ fontSize: '12px', opacity: 0.8 }}
+            <Legend
+              verticalAlign="bottom"
+              height={72}
+              content={renderLegend}
+              wrapperStyle={{ width: '100%' }}
             />
           </PieChart>
         </ResponsiveContainer>

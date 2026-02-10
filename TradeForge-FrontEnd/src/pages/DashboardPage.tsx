@@ -53,7 +53,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="max-w-[1600px] mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-6">
       {/* Header Section */}
       <div className="flex justify-between items-center mb-8">
         <div>

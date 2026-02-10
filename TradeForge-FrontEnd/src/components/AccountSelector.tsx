@@ -50,8 +50,8 @@ export default function AccountSelector() {
         </svg>
       </button>
       {open && (
-        <ul className="absolute right-0 mt-2 w-56 bg-[#050810]/95 border border-[#00FF88]/30 rounded-md shadow-[0_0_20px_rgba(0,0,0,0.5)] z-50 backdrop-blur-xl overflow-hidden">
-          <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-[#00FF88]/50 to-transparent"></div>
+        <ul className="absolute right-0 bottom-full mb-2 w-56 max-h-64 overflow-y-auto bg-[#050810]/95 border border-[#00FF88]/30 rounded-md shadow-[0_0_20px_rgba(0,0,0,0.5)] z-50 backdrop-blur-xl">
+          <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-[#00FF88]/50 to-transparent shrink-0"></div>
           {activeAccounts.map((acc) => (
             <li key={acc.id}>
               <button

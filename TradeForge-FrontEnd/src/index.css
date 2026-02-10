@@ -66,6 +66,156 @@ body {
   box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
 }
 
+/* Hero landing animations */
+@keyframes hero-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-glow-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 15px rgba(0, 255, 136, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 28px rgba(0, 255, 136, 0.5));
+  }
+}
+
+@keyframes hero-gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes hero-dot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.2);
+    box-shadow: 0 0 12px 2px rgba(0, 255, 136, 0.3);
+  }
+}
+
+@keyframes hero-line-grow {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes hero-orb-float {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translate(20px, -25px) scale(1.1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-15px, -30px) scale(0.9);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translate(-20px, 10px) scale(1.05);
+    opacity: 0.45;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.3;
+  }
+}
+
+@keyframes hero-bg-pulse {
+  0%,
+  100% {
+    opacity: 0.03;
+  }
+  50% {
+    opacity: 0.08;
+  }
+}
+
+.animate-hero-fade-in-up {
+  animation: hero-fade-in-up 0.7s ease-out both;
+}
+
+.animate-hero-glow-pulse {
+  animation: hero-glow-pulse 3s ease-in-out infinite;
+}
+
+.animate-hero-gradient-shift {
+  background-size: 200% 200%;
+  animation: hero-gradient-shift 4s ease-in-out infinite;
+}
+
+.animate-hero-float {
+  animation: hero-float 3s ease-in-out infinite;
+}
+
+.animate-hero-dot-pulse {
+  animation: hero-dot-pulse 2s ease-in-out infinite;
+}
+
+.animate-hero-line-grow {
+  transform-origin: center;
+  animation: hero-line-grow 0.8s ease-out 0.75s both;
+}
+
+.animate-hero-orb-float {
+  animation: hero-orb-float 4s ease-in-out infinite;
+}
+
+.animate-hero-bg-pulse {
+  animation: hero-bg-pulse 4s ease-in-out infinite;
+}
+
+/* Landing section entrance */
+@keyframes section-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-section-in {
+  animation: section-fade-in 0.6s ease-out both;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
